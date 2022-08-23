@@ -21,7 +21,7 @@ public class WikimediaProjectApplication {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void startFetchingDataAfterStartup() {
+    public void startFetchingData() {
         String bootstrapServers = "localhost:9092";
         String topic = "wikimedia.recentchange";
         String url = "https://stream.wikimedia.org/v2/stream/recentchange";
