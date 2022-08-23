@@ -21,20 +21,30 @@ public class Service {
         Optional<Change> optional = repository.findById(id);
         if(optional.isEmpty())
             return new DataResult<>(false,"Change with that id does not exist",null);
-        return new DataResult<>(true,"Successfully retrieved data",optional.get());
+        return new DataResult<>(true,"Successfully fetched data",optional.get());
     }
 
-    public DataResult<List<Change>> getChangeByDate(String from, String to) {
+    public DataResult<List<Change>> getChangeByDateOrUser(String from, String to,String user) {
         List<Change> changes;
 
-        if(Objects.nonNull(from) && Objects.nonNull(to))
-            changes = repository.findByTimestampBetween(from,to);
-        else if(Objects.nonNull(from))
-            changes = repository.findByTimestampAfter(from);
-        else
-            changes = repository.findByTimestampBefore(to);
+        boolean hasBoth = Objects.nonNull(from) && Objects.nonNull(to);
 
-        return new DataResult<>(true,"Successfully retrieved data!",changes);
+        if(user!=null){
+            if(hasBoth)
+                changes = repository.findByUserAndTimestampBetween(user,from,to);
+            else if (from!=null)
+                changes = repository.findByUserAndTimestampAfter(user,from);
+            else changes = repository.findByUserAndTimestampBefore(user,to);
+        } else {
+            if(hasBoth)
+                changes = repository.findByTimestampBetween(from,to);
+            else if(Objects.nonNull(from))
+                changes = repository.findByTimestampAfter(from);
+            else
+                changes = repository.findByTimestampBefore(to);
+        }
+
+        return new DataResult<>(true,"Successfully fetched data!",changes);
     }
 
 }

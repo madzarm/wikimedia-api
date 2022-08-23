@@ -14,6 +14,8 @@ public interface Repository extends ElasticsearchRepository<Change,String> {
     //timestamp must be yyyy-MM-dd OR yyyy-MM-ddTHH-mm-ssZ
     List<Change> findByTimestampAfter(String from);
     List<Change> findByTimestampBefore(String to);
-
     List<Change> findByTimestampBetween(String from, String to);
+    List<Change> findByUserAndTimestampAfter(String user, String from);
+    List<Change> findByUserAndTimestampBefore(String user, String to);
+    List<Change> findByUserAndTimestampBetween(String user, String from, String to);
 }

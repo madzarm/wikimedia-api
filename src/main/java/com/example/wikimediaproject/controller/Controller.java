@@ -24,16 +24,21 @@ public class Controller {
     public ResponseEntity<DataResult<Change>> getChange(
             @RequestParam(required = false) String id,
             @RequestParam(required = false) String from,
-            @RequestParam(required = false) String to
+            @RequestParam(required = false) String to,
+            @RequestParam(required = false) String user
     ) {
+        boolean hasUserSearch = Objects.nonNull(user);
         boolean hasIdSearch = Objects.nonNull(id);
         boolean hasDateSearch = Objects.nonNull(to) || Objects.nonNull(from);
+        boolean hasAnySearch = hasDateSearch || hasIdSearch || hasUserSearch;
 
-        if(hasIdSearch && hasDateSearch)
-            return new DataResult<>(false,"Id and Date search can not be combined!",null).intoResponseEntity();
-        else if(hasIdSearch)
-            return service.getChangeById(id).intoResponseEntity();
+       // if(hasIdSearch ? (hasUserSearch || hasDateSearch) : !hasAnySearch )
+         if((hasDateSearch ? hasIdSearch : (hasUserSearch && hasIdSearch)) || !hasAnySearch)
+             return new DataResult<>(false, "Search can be done by date (from,to), by user and by id. It is not possible to " +
+                     "combine params except date (from or/and to) and user.",null).intoResponseEntity();
+         if(hasIdSearch)
+             return service.getChangeById(id).intoResponseEntity();
 
-        return service.getChangeByDate(from,to).intoResponseEntity();
+        return service.getChangeByDateOrUser(from,to,user).intoResponseEntity();
     }
 }
