@@ -19,8 +19,16 @@ public class Controller {
     }
 
     @GetMapping("/change")
-    public ResponseEntity<DataResult<Change>> getChangeById(@RequestParam String id) {
-        return service.getChangeById(id).intoResponseEntity();
+    public ResponseEntity<DataResult<Change>> getChange(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String from
+    ) {
+        if(id!=null && from!=null)
+            return new DataResult<>(false,"Parameters 'id' and 'from' can not be combined!",null).intoResponseEntity();
+        else if(id!=null)
+            return service.getChangeById(id).intoResponseEntity();
+
+        return service.getChangeByDate(from).intoResponseEntity();
     }
 
     @GetMapping("Hello")
