@@ -12,8 +12,6 @@ import org.springframework.context.event.EventListener;
 
 import java.net.URI;
 import java.util.Properties;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @SpringBootApplication
 public class WikimediaProjectApplication {
