@@ -33,7 +33,7 @@ public class WikimediaProjectApplication {
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 
-        KafkaProducer<String,String> kafkaProducer = new KafkaProducer<String, String>(properties);
+        KafkaProducer<String,String> kafkaProducer = new KafkaProducer<>(properties);
 
         EventHandler eventHandler = new WikimediaChangeHandler(kafkaProducer,topic);
         EventSource.Builder builder = new EventSource.Builder(eventHandler, URI.create(url));
