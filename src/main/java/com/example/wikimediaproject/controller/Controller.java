@@ -15,7 +15,7 @@ public class Controller {
     }
 
     @GetMapping("Hello")
-    public String helloWorld() {
+    public String getData() {
         return service.hello();
     }
 }
