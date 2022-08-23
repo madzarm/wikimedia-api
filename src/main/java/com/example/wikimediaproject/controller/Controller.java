@@ -1,4 +1,4 @@
-package com.example.wikimediaproject;
+package com.example.wikimediaproject.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
