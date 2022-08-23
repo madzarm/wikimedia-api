@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 public class Controller {
 
@@ -21,18 +23,17 @@ public class Controller {
     @GetMapping("/change")
     public ResponseEntity<DataResult<Change>> getChange(
             @RequestParam(required = false) String id,
-            @RequestParam(required = false) String from
+            @RequestParam(required = false) String from,
+            @RequestParam(required = false) String to
     ) {
-        if(id!=null && from!=null)
-            return new DataResult<>(false,"Parameters 'id' and 'from' can not be combined!",null).intoResponseEntity();
-        else if(id!=null)
+        boolean hasIdSearch = Objects.nonNull(id);
+        boolean hasDateSearch = Objects.nonNull(to) || Objects.nonNull(from);
+
+        if(hasIdSearch && hasDateSearch)
+            return new DataResult<>(false,"Id and Date search can not be combined!",null).intoResponseEntity();
+        else if(hasIdSearch)
             return service.getChangeById(id).intoResponseEntity();
 
-        return service.getChangeByDate(from).intoResponseEntity();
-    }
-
-    @GetMapping("Hello")
-    public String getData() {
-        return service.hello();
+        return service.getChangeByDate(from,to).intoResponseEntity();
     }
 }

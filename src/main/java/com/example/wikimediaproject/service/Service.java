@@ -5,6 +5,7 @@ import com.example.wikimediaproject.domain.repository.Repository;
 import com.example.wikimediaproject.service.result.DataResult;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
@@ -23,12 +24,17 @@ public class Service {
         return new DataResult<>(true,"Successfully retrieved data",optional.get());
     }
 
-    public DataResult<List<Change>> getChangeByDate(String from) {
-        List<Change> changes = repository.findByTimestampAfter(from);
+    public DataResult<List<Change>> getChangeByDate(String from, String to) {
+        List<Change> changes;
+
+        if(Objects.nonNull(from) && Objects.nonNull(to))
+            changes = repository.findByTimestampBetween(from,to);
+        else if(Objects.nonNull(from))
+            changes = repository.findByTimestampAfter(from);
+        else
+            changes = repository.findByTimestampBefore(to);
+
         return new DataResult<>(true,"Successfully retrieved data!",changes);
     }
 
-    public String hello(){
-        return "Hello";
-    }
 }
