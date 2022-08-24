@@ -12,6 +12,7 @@ import org.springframework.context.event.EventListener;
 
 import java.net.URI;
 import java.util.Properties;
+import java.util.logging.FileHandler;
 
 @SpringBootApplication
 public class WikimediaProjectApplication {

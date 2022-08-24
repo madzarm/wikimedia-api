@@ -34,7 +34,7 @@ public class Controller {
         boolean hasWikiSearch = Objects.nonNull(wiki);
         boolean hasAnySearch = hasDateSearch || hasIdSearch || hasUserSearch || hasWikiSearch;
 
-         if((hasDateSearch ?(hasIdSearch) : (hasUserSearch ? (hasIdSearch || hasWikiSearch) : (hasIdSearch && hasWikiSearch))) || !hasAnySearch)
+         if((hasDateSearch ?(hasIdSearch || (hasUserSearch && hasWikiSearch)) : (hasUserSearch ? (hasIdSearch || hasWikiSearch) : (hasIdSearch && hasWikiSearch))) || !hasAnySearch)
              return new DataResult<>(false, "Search can be done by date (from,to), by user and by id. It is not possible to " +
                      "combine params except date (from or/and to) and user.",null).intoResponseEntity();
          else if(hasIdSearch)
