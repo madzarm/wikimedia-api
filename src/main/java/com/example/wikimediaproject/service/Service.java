@@ -46,10 +46,17 @@ public class Service {
 
         return new DataResult<>(true,"Successfully fetched data!",changes);
     }
+    public DataResult<List<Change>> getChangeByDateOrWiki(String from, String to, String wiki) {
+        List<Change> changes;
+        boolean hasBoth = Objects.nonNull(from) && Objects.nonNull(to);
 
-    public DataResult<List<Change>> getChangeByWiki(String wiki) {
-        List<Change> changes = repository.findByWiki(wiki);
-        return new DataResult<>(true, "Successfully fetched data!",changes);
+        if (hasBoth)
+            changes = repository.findByWikiAndTimestampBetween(wiki,from,to);
+        else if (from==null && to==null)
+            changes = repository.findByWiki(wiki);
+        else if(from==null)
+            changes = repository.findByWikiAndTimestampBefore(wiki,to);
+        else changes = repository.findByWikiAndTimestampAfter(wiki,from);
+        return new DataResult<>(true,"Successfully fetched data!",changes);
     }
-
 }

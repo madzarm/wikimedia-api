@@ -18,5 +18,8 @@ public interface Repository extends ElasticsearchRepository<Change,String> {
     List<Change> findByUserAndTimestampAfter(String user, String from);
     List<Change> findByUserAndTimestampBefore(String user, String to);
     List<Change> findByUserAndTimestampBetween(String user, String from, String to);
+    List<Change> findByWikiAndTimestampBetween(String wiki, String from, String to);
     List<Change> findByWiki(String wiki);
+    List<Change> findByWikiAndTimestampBefore(String wiki, String to);
+    List<Change> findByWikiAndTimestampAfter(String wiki, String from);
 }
