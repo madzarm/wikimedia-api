@@ -47,4 +47,9 @@ public class Service {
         return new DataResult<>(true,"Successfully fetched data!",changes);
     }
 
+    public DataResult<List<Change>> getChangeByWiki(String wiki) {
+        List<Change> changes = repository.findByWiki(wiki);
+        return new DataResult<>(true, "Successfully fetched data!",changes);
+    }
+
 }
